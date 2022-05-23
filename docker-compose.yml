@@ -1,0 +1,35 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  verify:
+    build: .
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:3000:3000'
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:4.4
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: CHANGE_ME
+    ports:
+      - "127.0.0.1:27017:27017"
+
+  mongo-express:
+    image: mongo-express:0.54
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: CHANGE_ME
+      ME_CONFIG_MONGODB_URL: mongodb://root:CHANGE_ME@mongo:27017/
+    depends_on:
+      - mongo

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+
+    <title>Confirmation</title>
+  </head>
+  <body
+    style="
+      background-color: #161923;
+      font-family: 'Roboto', sans-serif;
+      height: 100%;
+    "
+  >
+    <script>
+      const confirmVerify = (event) => {
+        // Get first query parameter
+        const query = new URLSearchParams(window.location.search);
+        const token = query.get('token');
+
+        window.location.assign(`/verify?token=${token}`);
+      };
+    </script>
+
+    <div
+      style="
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 2em;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h5 style="color: #fefefe; text-align: center">
+        By clicking the button below you will associate your student email with
+        your <br />
+        Discord account in the <a href="https://macs.codes">MACS</a> Discord server<br>
+        <br />
+        If you did not request this please do not click confirm
+      </h5>
+
+      <!-- <button style="width: 10em; height: 10em" onclick="confirmVerify()">
+        Confirm
+      </button> -->
+      <a
+        class="waves-effect waves-light btn-large blue lighten-3"
+        style="color: #161923"
+        onclick="confirmVerify()"
+        >Confirm</a
+      >
+
+      <!-- Compiled and minified JavaScript -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    </div>
+  </body>
+</html>
