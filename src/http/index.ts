@@ -51,7 +51,7 @@ app.get('/verify', async (req, res) => {
     return res.status(403).json({ error: 'email not set' });
   }
 
-  const staffRegex = /^[a-z]+\.[a-z0-9]+@mq.edu.au$/;
+  const staffRegex = /^[a-z]+\.[a-z0-9]+@mq\.edu\.au$/;
 
   try {
     await addVerifiedUserToDb(discordId, email, staffRegex.test(email));

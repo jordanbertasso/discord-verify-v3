@@ -3,7 +3,7 @@ import re
 
 new_docs = []
 
-staff_regex = r'^.*@mq.edu.au$'
+staff_regex = r'^.*@mq\.edu\.au$'
 
 with open('file', 'r') as f:
     lines = f.readlines()
