@@ -128,7 +128,7 @@ client.on('interactionCreate', async (interaction) => {
   // Get the data entered by the user
   const email = interaction.fields.getTextInputValue('emailInput');
 
-  const regex = /^[a-z]+\.[a-z0-9]+@(students.mq.edu.au|mq.edu.au)$/;
+  const regex = /^[a-z]+\.[a-z0-9]+@(students\.mq\.edu\.au|mq\.edu\.au)$/;
 
   if (!regex.test(email)) {
     try {
