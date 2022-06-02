@@ -87,14 +87,6 @@ export const addVerifiedUserToDb = async (
   email: string,
   staff: boolean,
 ) => {
-  const user = new User({
-    discordId,
-    email,
-    isStaff: staff,
-    verified: true,
-    dateVerified: new Date(),
-  });
-
   // Check if user already verified
   try {
     const existingDiscordUser = await User.findOne({ discordId });
@@ -117,6 +109,22 @@ export const addVerifiedUserToDb = async (
     throw error;
   }
 
+  let user = await User.findOne({ discordId });
+
+  if (!user) {
+    user = new User({
+      discordId,
+      email,
+      isStaff: staff,
+      verified: true,
+      dateVerified: new Date(),
+    });
+  } else {
+    user.email = email;
+    user.isStaff = staff;
+    user.verified = true;
+    user.dateVerified = new Date();
+  }
 
   console.log(`Saving user ${discordId} - ${email}`);
 
