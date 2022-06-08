@@ -97,7 +97,7 @@ client.on('interactionCreate', async (interaction) => {
 
   const modal = new Modal()
     .setCustomId('myModal')
-    .setTitle('Email')
+    .setTitle('Verification Form')
     .addComponents();
 
   const fullNameComponent = new TextInputComponent()
