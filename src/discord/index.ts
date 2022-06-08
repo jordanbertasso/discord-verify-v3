@@ -100,6 +100,15 @@ client.on('interactionCreate', async (interaction) => {
     .setTitle('Email')
     .addComponents();
 
+  const fullNameComponent = new TextInputComponent()
+    .setCustomId('fullNameInput')
+    .setLabel('What is your full name?')
+    .setRequired(true)
+    .setPlaceholder('First Middle Last')
+    .setMinLength(3)
+    .setMaxLength(50)
+    .setStyle('SHORT');
+
   const emailComponent = new TextInputComponent()
     .setCustomId('emailInput')
     .setLabel("What's your student or staff email?")
@@ -109,10 +118,25 @@ client.on('interactionCreate', async (interaction) => {
     .setMaxLength(200)
     .setStyle('SHORT');
 
+  const idComponent = new TextInputComponent()
+    .setCustomId('idInput')
+    .setLabel("What's your student or staff ID?")
+    .setRequired(true)
+    .setPlaceholder('41234567')
+    .setMinLength(8)
+    .setMaxLength(12)
+    .setStyle('SHORT');
+
   const firstActionRow =
+    new MessageActionRow<TextInputComponent>().addComponents(fullNameComponent);
+
+  const secondActionRow =
     new MessageActionRow<TextInputComponent>().addComponents(emailComponent);
 
-  modal.addComponents(firstActionRow);
+  const thirdActionRow =
+    new MessageActionRow<TextInputComponent>().addComponents(idComponent);
+
+  modal.addComponents(firstActionRow, secondActionRow, thirdActionRow);
 
   try {
     await interaction.showModal(modal);
@@ -126,11 +150,28 @@ client.on('interactionCreate', async (interaction) => {
   if (!interaction.isModalSubmit()) return;
 
   // Get the data entered by the user
+  const fullName = interaction.fields.getTextInputValue('fullNameInput');
   const email = interaction.fields.getTextInputValue('emailInput');
+  const mqID = interaction.fields.getTextInputValue('idInput');
 
-  const regex = /^[a-z]+\.[a-z0-9]+@(students\.mq\.edu\.au|mq\.edu\.au)$/;
+  const fullNameRegex = /^(?:(\w+-?\w+)) (?:(\w+))(?: (\w+))?$/;
+  const emailRegex = /^[a-z]+\.[a-z0-9]+@(students\.mq\.edu\.au|mq\.edu\.au)$/;
+  const idRegex = /^(mq|MQ)?[0-9]{8,12}$/;
 
-  if (!regex.test(email)) {
+  if (!fullNameRegex.test(fullName)) {
+    try {
+      await interaction.reply({
+        content: 'Please enter an alphanumeric full name.',
+        ephemeral: true,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+
+    return;
+  }
+
+  if (!emailRegex.test(email)) {
     try {
       await interaction.reply({
         content: 'Please enter a staff or student email address.',
@@ -143,9 +184,22 @@ client.on('interactionCreate', async (interaction) => {
     return;
   }
 
+  if (!idRegex.test(mqID)) {
+    try {
+      await interaction.reply({
+        content: 'Please enter a valid student or staff ID.',
+        ephemeral: true,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+
+    return;
+  }
+
   let jwt;
   try {
-    jwt = await new jose.SignJWT({ email })
+    jwt = await new jose.SignJWT({ email, mqID, fullName })
       .setSubject(interaction.user.id)
       .setProtectedHeader({ alg: 'HS256' })
       .setIssuedAt()
@@ -175,7 +229,7 @@ client.on('interactionCreate', async (interaction) => {
 
   // Add attempt for user
   try {
-    await addAttempt(email, interaction.user.id);
+    await addAttempt(email, mqID, fullName, interaction.user.id);
   } catch (error) {
     console.log(error);
     try {

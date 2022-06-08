@@ -3,12 +3,16 @@ import config from '../config';
 
 interface IAttempt {
   email: string;
+  mqID: string;
+  fullName: string;
   date: Date;
 }
 
 interface IUser {
   discordId: string;
   email: string;
+  mqID: string;
+  fullName: string;
   isStaff: boolean;
   verified: boolean;
   dateVerified: Date;
@@ -17,12 +21,16 @@ interface IUser {
 
 const AttemptSchema = new Schema<IAttempt>({
   email: String,
+  mqID: String,
+  fullName: String,
   date: Date,
 });
 
 const UserSchema = new Schema<IUser>({
   discordId: { type: String, required: true },
   email: String,
+  mqID: String,
+  fullName: String,
   isStaff: String,
   verified: { type: Boolean, required: true },
   dateVerified: Date,
@@ -42,7 +50,12 @@ const connectToDB = async () => {
   );
 };
 
-export const addAttempt = async (email: string, discordId: string) => {
+export const addAttempt = async (
+  email: string,
+  mqID: string,
+  fullName: string,
+  discordId: string,
+) => {
   let user = await User.findOne({ discordId });
 
   if (!user) {
@@ -54,6 +67,8 @@ export const addAttempt = async (email: string, discordId: string) => {
 
   const attempt = {
     email,
+    mqID,
+    fullName,
     date: new Date(),
   };
 
@@ -85,6 +100,8 @@ export const getUser = async (discordId: string) => {
 export const addVerifiedUserToDb = async (
   discordId: string,
   email: string,
+  mqID: string,
+  fullName: string,
   staff: boolean,
 ) => {
   // Check if user already verified
@@ -115,18 +132,22 @@ export const addVerifiedUserToDb = async (
     user = new User({
       discordId,
       email,
+      mqID,
+      fullName,
       isStaff: staff,
       verified: true,
       dateVerified: new Date(),
     });
   } else {
     user.email = email;
+    user.mqID = mqID;
+    user.fullName = fullName;
     user.isStaff = staff;
     user.verified = true;
     user.dateVerified = new Date();
   }
 
-  console.log(`Saving user ${discordId} - ${email}`);
+  console.log(`Saving user ${discordId} - ${email} - ${mqID}`);
 
   try {
     await user.save();
