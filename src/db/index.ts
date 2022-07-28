@@ -104,21 +104,10 @@ export const addVerifiedUserToDb = async (
   fullName: string,
   staff: boolean,
 ) => {
-  // Check if user already verified
+  // Check if email already exists on another discord account
   try {
-    const existingDiscordUser = await User.findOne({ discordId });
-    if (existingDiscordUser?.verified) {
-      throw new Error('User already verified');
-    }
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-
-  // Check if email already exists
-  try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    const existingUser = await User.findOne({ email, verified: true });
+    if (existingUser && existingUser.discordId !== discordId) {
       throw new Error('Email already used');
     }
   } catch (error) {
@@ -127,6 +116,12 @@ export const addVerifiedUserToDb = async (
   }
 
   let user = await User.findOne({ discordId });
+
+  // Don't save the user again if they are already verified
+  if (user?.verified) {
+    console.log(`User already verified ${discordId} - ${email} - ${mqID}`);
+    return;
+  }
 
   if (!user) {
     user = new User({
