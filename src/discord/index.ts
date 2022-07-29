@@ -14,6 +14,8 @@ import config from '../config';
 import pingCommand from './commands/ping';
 import setupButton from './commands/setupButton';
 import infoCommand from './commands/info';
+import searchCommand from './commands/search';
+import deleteCommand from './commands/delete';
 import sendEmail from '../email';
 import { addAttempt, attemptsForUser } from '../db';
 import { SlashCommandBuilder } from '@discordjs/builders';
@@ -36,6 +38,8 @@ const commands = new Collection<string, TPermissionSlashCommand>();
 commands.set(pingCommand.data.name, pingCommand);
 commands.set(setupButton.data.name, setupButton);
 commands.set(infoCommand.data.name, infoCommand);
+commands.set(searchCommand.data.name, searchCommand);
+commands.set(deleteCommand.data.name, deleteCommand);
 
 // When the client is ready, run this code (only once)
 client.once('ready', () => {

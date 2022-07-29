@@ -97,6 +97,14 @@ export const getUser = async (discordId: string) => {
   return await User.findOne({ discordId });
 };
 
+export const getUserByEmail = async (email: string) => {
+  return await User.findOne({ email });
+};
+
+export const deleteUser = async (discordId: string) => {
+  return await User.findOneAndDelete({ discordId });
+};
+
 export const addVerifiedUserToDb = async (
   discordId: string,
   email: string,

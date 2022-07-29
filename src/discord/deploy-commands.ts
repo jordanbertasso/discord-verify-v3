@@ -2,10 +2,12 @@ import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 import config from '../config';
 import info from './commands/info';
+import search from './commands/search';
+import deleteUser from './commands/delete';
 import ping from './commands/ping';
 import setupButton from './commands/setupButton';
 
-const commands = [ping, setupButton, info].map((command) =>
+const commands = [ping, setupButton, info, search, deleteUser].map((command) =>
   command.data.toJSON(),
 );
 
