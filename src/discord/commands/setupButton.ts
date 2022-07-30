@@ -6,7 +6,6 @@ import {
 } from 'discord.js';
 
 export default {
-  requiresAdmin: true,
   data: new SlashCommandBuilder()
     .setName('setup-verify')
     .setDescription('Creates a verify button'),

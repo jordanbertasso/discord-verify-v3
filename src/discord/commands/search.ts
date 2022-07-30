@@ -3,7 +3,6 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { getUserByEmail } from '../../db';
 
 export default {
-  requiresAdmin: false,
   data: new SlashCommandBuilder()
     .setName('search')
     .setDescription('User by email')

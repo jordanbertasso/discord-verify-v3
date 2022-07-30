@@ -30,7 +30,7 @@ type TPermissionSlashCommand = {
     | SlashCommandBuilder
     | Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>;
   execute: (interaction: CommandInteraction) => Promise<void>;
-  requiresAdmin: boolean;
+  public?: boolean;
 };
 
 // Add commands
@@ -56,7 +56,7 @@ client.on('interactionCreate', async (interaction) => {
 
   if (!command) return;
 
-  if (command.requiresAdmin) {
+  if (!command.public) {
     if (!interaction.memberPermissions?.has(Permissions.FLAGS.ADMINISTRATOR)) {
       interaction.reply('You are not authorized to use this command.');
       return;

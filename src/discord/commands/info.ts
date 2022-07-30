@@ -3,7 +3,6 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { getUser } from '../../db';
 
 export default {
-  requiresAdmin: false,
   data: new SlashCommandBuilder()
     .setName('info')
     .setDescription('User info')

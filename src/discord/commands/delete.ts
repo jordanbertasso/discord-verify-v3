@@ -3,7 +3,6 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { deleteUser } from '../../db';
 
 export default {
-  requiresAdmin: false,
   data: new SlashCommandBuilder()
     .setName('delete')
     .setDescription('Delete a user from the database')
