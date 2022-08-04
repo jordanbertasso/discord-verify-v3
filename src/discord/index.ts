@@ -159,7 +159,7 @@ client.on('interactionCreate', async (interaction) => {
   const mqID = interaction.fields.getTextInputValue('idInput');
 
   const fullNameRegex = /^\w+ \w+(?: \w+)*$/;
-  const emailRegex = /^[a-z]+\.[a-z0-9]+@(students\.mq\.edu\.au|mq\.edu\.au)$/;
+  const emailRegex = /^[a-z-]+\.[a-z]+[0-9]*@(students\.mq\.edu\.au|mq\.edu\.au)$/;
   const idRegex = /^(mq|MQ)?[0-9]{8,12}$/;
 
   if (!fullNameRegex.test(fullName)) {
