@@ -207,7 +207,7 @@ client.on('interactionCreate', async (interaction) => {
       .setSubject(interaction.user.id)
       .setProtectedHeader({ alg: 'HS256' })
       .setIssuedAt()
-      .setExpirationTime('2h')
+      .setExpirationTime('12h')
       .sign(Buffer.from(config.web.jwtSecret));
   } catch (error) {
     console.error(error);
