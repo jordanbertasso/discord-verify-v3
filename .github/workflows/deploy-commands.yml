@@ -1,0 +1,22 @@
+name: Deploy Commands
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  deploy-commands:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: borales/actions-yarn@v3.0.0
+        with:
+          cmd: install
+      - uses: borales/actions-yarn@v3.0.0
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          DISCORD_GUILD_ID: ${{ secrets.DISCORD_GUILD_ID }}
+          DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+        with:
+          cmd: deploy-commands

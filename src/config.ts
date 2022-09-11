@@ -25,7 +25,7 @@ interface IConfig {
 }
 
 const loadConfig = () => {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.CI !== 'true' && process.env.NODE_ENV === 'development') {
     dotenv.config();
   }
 
