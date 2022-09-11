@@ -1,8 +1,9 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
   CommandInteraction,
-  MessageActionRow,
-  MessageButton,
+  SlashCommandBuilder,
 } from 'discord.js';
 
 export default {
@@ -10,16 +11,19 @@ export default {
     .setName('setup-verify')
     .setDescription('Creates a verify button'),
   async execute(interaction: CommandInteraction) {
-    const row = new MessageActionRow().addComponents(
-      new MessageButton()
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
         .setCustomId('primary')
         .setLabel('Click to verify')
-        .setStyle('PRIMARY'),
+        .setStyle(ButtonStyle.Primary),
     );
 
     try {
       await interaction.channel?.send({ components: [row] });
-      await interaction.reply({ content: 'All done!', ephemeral: true });
+      await interaction.reply({
+        content: 'All done!',
+        ephemeral: true,
+      });
     } catch (error) {
       console.error(error);
     }

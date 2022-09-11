@@ -1,5 +1,4 @@
-import { CommandInteraction } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { getUserByEmail } from '../../db';
 
 export default {
@@ -12,7 +11,7 @@ export default {
         .setDescription('The email to search for')
         .setRequired(true),
     ),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const email = interaction.options.getString('email');
     if (!email) {
       await interaction.reply({ content: 'Email not found', ephemeral: true });
@@ -28,6 +27,9 @@ export default {
       return;
     }
 
-    await interaction.reply({ content: JSON.stringify(dbUser), ephemeral: true });
+    await interaction.reply({
+      content: JSON.stringify(dbUser),
+      ephemeral: true,
+    });
   },
 };

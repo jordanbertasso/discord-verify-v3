@@ -1,5 +1,4 @@
-import { CommandInteraction } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
+import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { getUser } from '../../db';
 
 export default {
