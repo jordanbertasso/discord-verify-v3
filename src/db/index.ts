@@ -1,5 +1,4 @@
 import { Schema, model, connect } from 'mongoose';
-import config from '../config';
 
 interface IAttempt {
   email: string;
@@ -39,15 +38,17 @@ const UserSchema = new Schema<IUser>({
 
 const User = model<IUser>('User', UserSchema);
 
-const connectToDB = async () => {
-  await connect(
-    `mongodb://${config.db.host}:${config.db.port}/${config.db.name}`,
-    {
-      user: 'root',
-      pass: config.db.password,
-      authSource: 'admin',
-    },
-  );
+const connectToDB = async (
+  host: string,
+  port: string,
+  dbName: string,
+  dbPassword: string,
+) => {
+  await connect(`mongodb://${host}:${port}/${dbName}`, {
+    user: 'root',
+    pass: dbPassword,
+    authSource: 'admin',
+  });
 };
 
 export const addAttempt = async (

@@ -1,10 +1,8 @@
-import {
-  Interaction,
-  Snowflake,
-  TextBasedChannel,
-} from 'discord.js';
-import config from '../config';
+import { Interaction, Snowflake, TextBasedChannel } from 'discord.js';
+import loadConfig from '../config';
 import client from '.';
+
+const config = loadConfig();
 
 const getChannelName = (channel: TextBasedChannel | null) => {
   let channelName = 'unknown';

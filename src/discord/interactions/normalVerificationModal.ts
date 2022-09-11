@@ -1,11 +1,11 @@
 import { ModalSubmitInteraction } from 'discord.js';
 import * as jose from 'jose';
-import config from '../../config';
 import { addAttempt, attemptsForUser } from '../../db';
 import sendEmail from '../../email';
 
 export default async function handleNormalVerificationModal(
   interaction: ModalSubmitInteraction,
+  jwtSecret: string
 ) {
   // Get the data entered by the user
   const fullName = interaction.fields.getTextInputValue('fullNameInput');
@@ -63,7 +63,7 @@ export default async function handleNormalVerificationModal(
       .setProtectedHeader({ alg: 'HS256' })
       .setIssuedAt()
       .setExpirationTime('12h')
-      .sign(Buffer.from(config.web.jwtSecret));
+      .sign(Buffer.from(jwtSecret));
   } catch (error) {
     console.error(error);
     return;

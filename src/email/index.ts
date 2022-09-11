@@ -1,5 +1,7 @@
 import AWS from 'aws-sdk';
-import config from '../config';
+import loadConfig from '../config';
+
+const config = loadConfig();
 
 // Set the region
 AWS.config.update({

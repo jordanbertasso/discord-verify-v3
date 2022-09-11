@@ -18,8 +18,11 @@ import verifyUser, {
 } from './commands/verify-user';
 import handleNormalVerificationModal from './interactions/normalVerificationModal';
 import handleManualVerificationModal from './interactions/manualVerificationModal';
+import loadConfig from '../config';
 
 const NORMAL_VERIFICATION_MODAL_ID = 'normalVerificationModal';
+
+const config = loadConfig();
 
 // Create a new client instance
 const client = new Client({
@@ -127,7 +130,7 @@ client.on('interactionCreate', async (interaction) => {
   }
 
   if (interaction.customId === NORMAL_VERIFICATION_MODAL_ID) {
-    handleNormalVerificationModal(interaction);
+    handleNormalVerificationModal(interaction, config.web.jwtSecret);
     return;
   }
 });

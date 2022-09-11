@@ -1,9 +1,11 @@
 import express from 'express';
 import morgan from 'morgan';
 import * as jose from 'jose';
-import config from '../config';
 import { addVerifiedUserToDb } from '../db';
 import { verifyUserInDiscord } from '../discord/util';
+import loadConfig from '../config';
+
+const config = loadConfig();
 
 const app = express();
 const port = 3000;

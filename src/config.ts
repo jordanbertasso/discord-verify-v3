@@ -72,4 +72,4 @@ const loadConfig = () => {
   return config;
 };
 
-export default loadConfig();
+export default loadConfig;
