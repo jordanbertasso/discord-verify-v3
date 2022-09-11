@@ -1,12 +1,24 @@
+import dotenv from 'dotenv';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
-import config from '../config';
 import info from './commands/info';
 import search from './commands/search';
 import deleteUser from './commands/delete';
 import ping from './commands/ping';
 import setupButton from './commands/setupButton';
 import verifyUser from './commands/verify-user';
+
+if (process.env.CI !== 'true' && process.env.NODE_ENV === 'development') {
+  dotenv.config();
+}
+
+const config = {
+  discord: {
+    token: process.env.DISCORD_TOKEN || '',
+    clientId: process.env.DISCORD_CLIENT_ID || '',
+    guildId: process.env.DISCORD_GUILD_ID || '',
+  },
+};
 
 const commands = [ping, setupButton, info, search, deleteUser, verifyUser].map(
   (command) => command.data.toJSON(),
