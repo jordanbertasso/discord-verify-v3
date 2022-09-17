@@ -1,6 +1,7 @@
 import { ModalSubmitInteraction } from 'discord.js';
 import { addVerifiedUserToDb } from '../../db';
 import { verifyUserInDiscord } from '../util';
+import Joi from 'joi';
 
 export default async function handleManualVerificationModal(
   interaction: ModalSubmitInteraction,
@@ -11,15 +12,17 @@ export default async function handleManualVerificationModal(
   const email = interaction.fields.getTextInputValue('emailInput');
   const mqID = interaction.fields.getTextInputValue('idInput');
 
-  const fullNameRegex = /^\w+ \w+(?: \w+)*$/;
-  const emailRegex =
-    /^[a-z-]+\.[a-z]+[0-9]*@(students\.mq\.edu\.au|mq\.edu\.au)$/;
-  const idRegex = /^(mq|MQ)?[0-9]{8,12}$/;
+  const { error: nameValidationError } = Joi.string()
+    .alphanum()
+    .min(3)
+    .max(100)
+    .required()
+    .validate(fullName);
 
-  if (!fullNameRegex.test(fullName)) {
+  if (nameValidationError) {
     try {
       await interaction.reply({
-        content: 'Please enter an alphanumeric full name.',
+        content: `Please enter an alphanumeric full name: ${nameValidationError}`,
         ephemeral: true,
       });
     } catch (error) {
@@ -29,23 +32,12 @@ export default async function handleManualVerificationModal(
     return;
   }
 
-  if (!emailRegex.test(email)) {
+  const { error: emailValidationError } = Joi.string().email().required().validate(email);
+
+  if (emailValidationError) {
     try {
       await interaction.reply({
-        content: 'Please enter a staff or student email address.',
-        ephemeral: true,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-
-    return;
-  }
-
-  if (!idRegex.test(mqID)) {
-    try {
-      await interaction.reply({
-        content: 'Please enter a valid student or staff ID.',
+        content: `Please enter a valid email address: ${emailValidationError.message}`,
         ephemeral: true,
       });
     } catch (error) {

@@ -25,6 +25,7 @@ export default {
     const modal = generateVerificationModal(
       'Manual Verification Form',
       MANUAL_VERIFICATION_MODAL_ID,
+      false,
       [discordIdComponent],
     );
 
