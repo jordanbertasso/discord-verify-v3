@@ -64,6 +64,14 @@ export default async function handleManualVerificationModal(
     await verifyUserInDiscord(discordId);
   } catch (error) {
     console.error("Couldn't verify user in discord", error);
+    try {
+      await interaction.reply({
+        content: "Couldn't verify user in discord",
+        ephemeral: true,
+      });
+    } catch (error) {
+      console.error(error);
+    }
     return;
   }
 
