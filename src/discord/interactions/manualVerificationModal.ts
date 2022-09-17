@@ -12,17 +12,12 @@ export default async function handleManualVerificationModal(
   const email = interaction.fields.getTextInputValue('emailInput');
   const mqID = interaction.fields.getTextInputValue('idInput');
 
-  const { error: nameValidationError } = Joi.string()
-    .alphanum()
-    .min(3)
-    .max(100)
-    .required()
-    .validate(fullName);
+  const fullNameRegex = /^[a-zA-Z ]{3,}$/;
 
-  if (nameValidationError) {
+  if (!fullNameRegex.test(fullName)) {
     try {
       await interaction.reply({
-        content: `Please enter an alphanumeric full name: ${nameValidationError}`,
+        content: 'Please enter an alphanumeric full name.',
         ephemeral: true,
       });
     } catch (error) {
@@ -32,7 +27,10 @@ export default async function handleManualVerificationModal(
     return;
   }
 
-  const { error: emailValidationError } = Joi.string().email().required().validate(email);
+  const { error: emailValidationError } = Joi.string()
+    .email()
+    .required()
+    .validate(email);
 
   if (emailValidationError) {
     try {
