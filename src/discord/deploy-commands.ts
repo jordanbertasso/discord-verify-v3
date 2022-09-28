@@ -8,6 +8,8 @@ import ping from './commands/ping';
 import setupButton from './commands/setupButton';
 import verifyUser from './commands/verify-user';
 import verifyUserContextMenu from './context-menus/verify-user';
+import infoUserContextMenu from './context-menus/info';
+import sendHelpUserContextMenu from './context-menus/send-help';
 
 if (process.env.CI !== 'true' && process.env.NODE_ENV === 'development') {
   dotenv.config();
@@ -29,6 +31,8 @@ const commands = [
   deleteUser,
   verifyUser,
   verifyUserContextMenu,
+  infoUserContextMenu,
+  sendHelpUserContextMenu,
 ].map((command) => command.data.toJSON());
 
 const rest = new REST({ version: '9' }).setToken(config.discord.token);
