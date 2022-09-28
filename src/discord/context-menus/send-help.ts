@@ -5,8 +5,6 @@ import {
   UserContextMenuCommandInteraction,
 } from 'discord.js';
 
-export const MANUAL_VERIFICATION_MODAL_ID = 'manualVerificationModal';
-
 export default {
   data: new ContextMenuCommandBuilder()
     .setName('Send Help Message')

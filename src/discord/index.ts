@@ -17,7 +17,8 @@ import verifyUser, {
   MANUAL_VERIFICATION_MODAL_ID,
 } from './commands/verify-user';
 import verifyUserContextMenu from './context-menus/verify-user';
-import infoContextCommand from './context-menus/info';
+import infoUserContextCommand from './context-menus/info';
+import sendHelpUserContextMenu from './context-menus/send-help';
 import handleNormalVerificationModal from './interactions/normalVerificationModal';
 import handleManualVerificationModal from './interactions/manualVerificationModal';
 import loadConfig from '../config';
@@ -146,8 +147,13 @@ client.on('interactionCreate', async (interaction) => {
     return;
   }
 
-  if (interaction.commandName === infoContextCommand.data.name) {
-    await infoContextCommand.execute(interaction);
+  if (interaction.commandName === infoUserContextCommand.data.name) {
+    await infoUserContextCommand.execute(interaction);
+    return;
+  }
+
+  if (interaction.commandName === sendHelpUserContextMenu.data.name) {
+    await sendHelpUserContextMenu.execute(interaction);
     return;
   }
 });

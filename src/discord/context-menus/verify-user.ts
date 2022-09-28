@@ -6,9 +6,8 @@ import {
   TextInputStyle,
   UserContextMenuCommandInteraction,
 } from 'discord.js';
+import { MANUAL_VERIFICATION_MODAL_ID } from '../commands/verify-user';
 import generateVerificationModal from '../components/verificationForm';
-
-export const MANUAL_VERIFICATION_MODAL_ID = 'manualVerificationModal';
 
 export default {
   data: new ContextMenuCommandBuilder()
