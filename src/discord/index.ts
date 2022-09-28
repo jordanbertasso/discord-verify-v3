@@ -153,8 +153,6 @@ client.on('interactionCreate', async (interaction) => {
   }
 
   if (interaction.commandName === sendHelpUserContextMenu.data.name) {
-    console.log("yeeeeee");
-    
     await sendHelpUserContextMenu.execute(interaction);
     return;
   }
