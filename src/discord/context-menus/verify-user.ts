@@ -4,6 +4,6 @@ export const MANUAL_VERIFICATION_MODAL_ID = 'manualVerificationModal';
 
 export default {
   data: new ContextMenuCommandBuilder()
-    .setName('verify-user')
+    .setName('Verify User')
     .setType(ApplicationCommandType.User),
 };
