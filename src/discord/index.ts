@@ -5,8 +5,6 @@ import {
   PermissionsBitField,
   IntentsBitField,
   SlashCommandBuilder,
-  TextInputStyle,
-  TextInputBuilder,
 } from 'discord.js';
 import { isVerified, logInteraction } from './util';
 import pingCommand from './commands/ping';
@@ -19,6 +17,7 @@ import verifyUser, {
   MANUAL_VERIFICATION_MODAL_ID,
 } from './commands/verify-user';
 import verifyUserContextMenu from './context-menus/verify-user';
+import infoContextCommand from './context-menus/info';
 import handleNormalVerificationModal from './interactions/normalVerificationModal';
 import handleManualVerificationModal from './interactions/manualVerificationModal';
 import loadConfig from '../config';
@@ -143,34 +142,13 @@ client.on('interactionCreate', async (interaction) => {
   if (!interaction.isUserContextMenuCommand()) return;
 
   if (interaction.commandName === verifyUserContextMenu.data.name) {
-    const discordIdComponent = new TextInputBuilder()
-      .setCustomId('discordId')
-      .setLabel('What is your Discord ID?')
-      .setRequired(true)
-      .setPlaceholder('1234567890')
-      .setValue(interaction.targetId)
-      .setMinLength(10)
-      .setMaxLength(20)
-      .setStyle(TextInputStyle.Short);
+    await verifyUserContextMenu.execute(interaction);
+    return;
+  }
 
-    console.log(interaction.targetId);
-
-    const modal = generateVerificationModal(
-      'Manual Verification Form',
-      MANUAL_VERIFICATION_MODAL_ID,
-      false,
-      [discordIdComponent],
-    );
-
-    try {
-      await interaction.showModal(modal);
-    } catch (error) {
-      console.error(error);
-      await interaction.reply({
-        content: 'Something went wrong',
-        ephemeral: true,
-      });
-    }
+  if (interaction.commandName === infoContextCommand.data.name) {
+    await infoContextCommand.execute(interaction);
+    return;
   }
 });
 
