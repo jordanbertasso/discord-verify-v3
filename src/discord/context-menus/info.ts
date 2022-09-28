@@ -1,6 +1,7 @@
 import {
   ApplicationCommandType,
   ContextMenuCommandBuilder,
+  PermissionFlagsBits,
   UserContextMenuCommandInteraction,
 } from 'discord.js';
 import { getUser } from '../../db';
@@ -10,6 +11,7 @@ export const MANUAL_VERIFICATION_MODAL_ID = 'manualVerificationModal';
 export default {
   data: new ContextMenuCommandBuilder()
     .setName('Info')
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setType(ApplicationCommandType.User),
   async execute(interaction: UserContextMenuCommandInteraction) {
     const user = interaction.options.getUser('user');

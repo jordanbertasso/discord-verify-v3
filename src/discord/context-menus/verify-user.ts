@@ -1,6 +1,7 @@
 import {
   ApplicationCommandType,
   ContextMenuCommandBuilder,
+  PermissionFlagsBits,
   TextInputBuilder,
   TextInputStyle,
   UserContextMenuCommandInteraction,
@@ -12,6 +13,7 @@ export const MANUAL_VERIFICATION_MODAL_ID = 'manualVerificationModal';
 export default {
   data: new ContextMenuCommandBuilder()
     .setName('Verify User')
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setType(ApplicationCommandType.User),
   async execute(interaction: UserContextMenuCommandInteraction) {
     const discordIdComponent = new TextInputBuilder()
