@@ -11,10 +11,15 @@ interface IConfig {
     jwtSecret: string;
     uri: string;
   };
-  ses: {
-    region: string;
-    accessKeyId: string;
-    secretAccessKey: string;
+  email: {
+    // ses: {
+    //   region: string;
+    //   accessKeyId: string;
+    //   secretAccessKey: string;
+    // };
+    sendgrid: {
+      apiKey: string;
+    };
   };
   db: {
     host: string;
@@ -40,10 +45,15 @@ const loadConfig = () => {
       jwtSecret: process.env.WEB_JWT_SECRET || '',
       uri: process.env.WEB_URI || '',
     },
-    ses: {
-      region: process.env.SES_REGION || '',
-      accessKeyId: process.env.SES_ACCESS_KEY_ID || '',
-      secretAccessKey: process.env.SES_SECRET_ACCESS_KEY || '',
+    email: {
+      // ses: {
+      //   region: process.env.SES_REGION || '',
+      //   accessKeyId: process.env.SES_ACCESS_KEY_ID || '',
+      //   secretAccessKey: process.env.SES_SECRET_ACCESS_KEY || '',
+      // },
+      sendgrid: {
+        apiKey: process.env.SENDGRID_API_KEY || '',
+      },
     },
     db: {
       host: process.env.DB_HOST || '',
