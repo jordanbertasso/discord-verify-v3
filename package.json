@@ -19,7 +19,7 @@
     "express": "^4.18.1",
     "joi": "^17.6.2",
     "jose": "^4.8.1",
-    "mongoose": "^6.6.7",
+    "mongoose": "^7.0.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
